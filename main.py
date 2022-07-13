@@ -71,8 +71,8 @@ def get_line_of_image(image: Image, start_coord: tuple, end_coord: tuple, step: 
 
 
 if __name__ == '__main__':
-    image = Image.open('./test.png')
-    # image = Image.open('./heroes-of-the-storm-logo.png')
+    image = Image.open('./images/test.png')
+    # image = Image.open('./images/heroes-of-the-storm-logo.png')
     arduino = serial.Serial()
     arduino.port = '/dev/cu.usbserial-10'
     arduino.baudrate = 57600
