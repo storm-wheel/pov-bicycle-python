@@ -5,36 +5,26 @@ from math import sin, cos, pi
 import serial
 
 
-def get_polar_coordinate_image(image: Image, pixel_per_line: int, pices: int) -> Image:
-    """
-    Get polar coordinate image.
-    :param image: Image to get polar coordinate image from.
-    :return: Polar coordinate image.
-    """
-    degree_step = 360 / pices
+def get_polar_coordinate_image(image: Image, pixel_per_line: int, pieces: int) -> Image:
+    degree_step = 360 / pieces
     polar_coordinate_image = Image.new(
-        "RGB", (pices, pixel_per_line))
+        "RGB", (pieces, pixel_per_line))
     square_image, image_size = get_square_image_and_size(image)
     start_coord = (image_size // 2, image_size // 2)
     radius = image_size // 2
-    for i in range(pices):
-        theta = i * degree_step
+    for piece in range(pieces):
+        theta = piece * degree_step
         end_x = start_coord[0] + int(radius * cos(theta * pi / 180))
         end_y = start_coord[1] + int(radius * sin(theta * pi / 180))
         end_coord = (end_x, end_y)
         line = get_line_of_image(
             square_image, start_coord, end_coord, pixel_per_line)
         for r in range(pixel_per_line):
-            polar_coordinate_image.putpixel((i, r), line[r])
+            polar_coordinate_image.putpixel((piece, r), line[r])
     return polar_coordinate_image
 
 
 def get_square_image_and_size(image: Image) -> Image:
-    """
-    Get square image.
-    :param image: Image to get square image from.
-    :return: Square image.
-    """
     center_coord = (image.width // 2, image.height // 2)
     image_size = min(image.width, image.height)
     square_image = Image.new("RGB", (image_size, image_size))
@@ -48,14 +38,6 @@ def get_square_image_and_size(image: Image) -> Image:
 
 
 def get_line_of_image(image: Image, start_coord: tuple, end_coord: tuple, step: int) -> list:
-    """
-    Get a line of pixels from an image.
-    :param image: Image to get line from.
-    :param start_coord: Start coordinate of line.
-    :param end_coord: End coordinate of line.
-    :param step: step of line.
-    :return: Line of pixels.
-    """
     x_diff = end_coord[0] - start_coord[0]
     y_diff = end_coord[1] - start_coord[1]
     x_step = x_diff / step
